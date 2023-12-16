@@ -30,9 +30,9 @@ public abstract class LevelMixin {
 			at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/entity/TickingBlockEntity;tick()V", shift = At.Shift.BEFORE),
 			locals = LocalCapture.CAPTURE_FAILEXCEPTION
 	)
-	private void onBlockEntityTick(CallbackInfo ci, ProfilerFiller profiler, Iterator<BlockEntity> iterator, TickingBlockEntity blockEntityTickInvoker) {
+	private void onBlockEntityTick(CallbackInfo ci, ProfilerFiller profilerfiller, Iterator<TickingBlockEntity> iterator, boolean flag, TickingBlockEntity tickingblockentity) {
 		if (this.isClientSide() && EmbPlusConfig.tileEntityLighting.get()) {
-			var blockEntity = this.getBlockEntity(blockEntityTickInvoker.getPos());
+			var blockEntity = this.getBlockEntity(tickingblockentity.getPos());
 			if (blockEntity != null)
 				((DynamicLightSource) blockEntity).tdv$dynamicLightTick();
 		}

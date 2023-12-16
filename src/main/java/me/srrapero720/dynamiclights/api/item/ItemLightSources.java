@@ -1,29 +1,19 @@
-/*
- * Copyright © 2020 LambdAurora <aurora42lambda@gmail.com>
- *
- * This file is part of LambDynamicLights.
- *
- * Licensed under the MIT license. For more information,
- * see the LICENSE file.
- */
-
 package me.srrapero720.dynamiclights.api.item;
 
 import com.google.gson.JsonParser;
 import me.srrapero720.dynamiclights.LambDynLights;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.packs.resources.Resource;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.server.packs.resources.ResourceManager;
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.ItemStack;
 
 /**
  * Represents an item light sources manager.
@@ -80,7 +70,7 @@ public final class ItemLightSources {
 		for (var other : ITEM_LIGHT_SOURCES) {
 			if (other.item() == data.item()) {
 				LambDynLights.warn("Failed to register item light source \"" + data.id() + "\", duplicates item \""
-						+ ForgeRegistries.ITEMS.getKey(data.item()) + "\" found in \"" + other.id() + "\".");
+						+ BuiltInRegistries.ITEM.getKey(data.item()) + "\" found in \"" + other.id() + "\".");
 				return;
 			}
 		}
@@ -97,7 +87,7 @@ public final class ItemLightSources {
 		for (var other : STATIC_ITEM_LIGHT_SOURCES) {
 			if (other.item() == data.item()) {
 				LambDynLights.warn("Failed to register item light source \"" + data.id() + "\", duplicates item \""
-						+ ForgeRegistries.ITEMS.getKey(data.item()) + "\" found in \"" + other.id() + "\".");
+						+ BuiltInRegistries.ITEM.getKey(data.item()) + "\" found in \"" + other.id() + "\".");
 				return;
 			}
 		}

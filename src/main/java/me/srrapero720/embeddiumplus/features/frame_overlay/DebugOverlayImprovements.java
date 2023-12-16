@@ -2,10 +2,10 @@ package me.srrapero720.embeddiumplus.features.frame_overlay;
 
 import me.srrapero720.embeddiumplus.EmbeddiumPlus;
 import net.minecraft.client.Minecraft;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.client.event.RenderGuiOverlayEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
+import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.RenderGuiOverlayEvent;
 
 @Mod.EventBusSubscriber(modid = EmbeddiumPlus.ID, bus = Mod.EventBusSubscriber.Bus.FORGE, value = Dist.CLIENT)
 public class DebugOverlayImprovements {
@@ -15,8 +15,7 @@ public class DebugOverlayImprovements {
 
         // cancel rendering text if chart is displaying
         var minecraft = Minecraft.getInstance();
-        if (minecraft.options.renderFpsChart)
+        if (minecraft.getDebugOverlay().renderFpsCharts)
             event.setCanceled(true);
-
     }
 }

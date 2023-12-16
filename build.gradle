@@ -1,41 +1,33 @@
 plugins {
     id 'java'
     id 'idea'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
-    id 'org.spongepowered.mixin' version '0.7.+'
-    id 'org.parchmentmc.librarian.forgegradle' version '1.+'
+    id 'net.neoforged.gradle.userdev' version '7.0.57'
 }
 
 version = "${mcversion}-v${modversion}"
 group = "me.srrapero720"
 archivesBaseName = modid
 
-java {
-    targetCompatibility = JavaVersion.VERSION_17
-    sourceCompatibility = JavaVersion.VERSION_17
-}
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-minecraft {
-    mappings channel: "${mappingsch}", version: "${mappings_version}-${mcversion}"
-    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-    copyIdeResources = true
-    runs {
-        client {
-            taskName "runClient-${mcversion}"
-            workingDirectory project.file('run')
-            arg '-mixin.config=' + String.valueOf(modid) + '.mixin.json'
-            //jvmArgs '-XX:+UnlockCommercialFeatures' // uncomment for profiling
-            property 'forge.logging.console.level', 'info'
-            property 'terminal.jline', 'true'
-            property 'fml.earlyprogresswindow', 'false'
-            property 'mixin.env.remapRefMap', 'true'
-            property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
-            mods {
-                "${modid}" {
-                    source sourceSets.main
-                }
-            }
-        }
+minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
+
+runs {
+    configureEach {
+        systemProperty 'forge.logging.markers', 'REGISTRIES'
+        systemProperty 'forge.logging.console.level', 'debug'
+        modSource project.sourceSets.main
+    }
+    client {
+        workingDirectory project.file('run')
+//        programArgument '-mixin.config=' + String.valueOf(modid) + '.mixin.json'
+        //jvmArgs '-XX:+UnlockCommercialFeatures' // uncomment for profiling
+        systemProperty 'forge.enabledGameTestNamespaces', project.modid
+        systemProperty 'forge.logging.console.level', 'info'
+        systemProperty 'terminal.jline', 'true'
+        systemProperty 'fml.earlyprogresswindow', 'false'
+        modSource project.sourceSets.main
+        programArgument '--nogui'
     }
 }
 
@@ -52,9 +44,9 @@ repositories {
             includeGroup "curse.maven"
         }
     }
-    maven {
-        url "https://maven.blamejared.com"
-    }
+        maven {
+            url "https://maven.blamejared.com"
+        }
     maven { url 'https://jitpack.io' }
     flatDir {
         dirs 'libs'
@@ -62,23 +54,18 @@ repositories {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${mcversion}-${fgversion}"
-    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
+    implementation "net.neoforged:neoforge:${fgversion}"
 
     // DEPENDENCIES
-    implementation fg.deobf("org.embeddedt:embeddium-${mcversion}:${embeddiumversion}")
-    implementation fg.deobf("curse.maven:jei-238222:${jeiversion}")
-    runtimeOnly fg.deobf("curse.maven:textrues-embeddium-options-910506:${embeddiumoptionsversion}")
-    runtimeOnly fg.deobf("curse.maven:oculus-581495:${oculusversion}")
+    implementation "org.embeddedt:embeddium-${mcversion}:${embeddiumversion}"
+    compileOnly "curse.maven:jei-238222:${jeiversion}"
+//    runtimeOnly "curse.maven:textrues-embeddium-options-910506:${embeddiumoptionsversion}"
+//    runtimeOnly "curse.maven:oculus-581495:${oculusversion}"
 
-    // MOD SUPPORT
-    implementation fg.deobf("com.simibubi.create:create-${mcversion}:${createversion}:slim") { transitive = false }
-    implementation fg.deobf("com.jozufozu.flywheel:flywheel-forge-${mcversion}:${flywheelversion}")
-    implementation fg.deobf("com.tterrag.registrate:Registrate:${registrateversion}")
-}
-
-mixin {
-    add sourceSets.main, "${modid}.mixin-refmap.json"
+//    // MOD SUPPORT
+//    implementation fg.deobf("com.simibubi.create:create-${mcversion}:${createversion}:slim") { transitive = false }
+//    implementation fg.deobf("com.jozufozu.flywheel:flywheel-forge-${mcversion}:${flywheelversion}")
+//    implementation fg.deobf("com.tterrag.registrate:Registrate:${registrateversion}")
 }
 
 jar {

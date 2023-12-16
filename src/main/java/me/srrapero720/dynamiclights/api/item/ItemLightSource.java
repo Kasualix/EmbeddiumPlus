@@ -11,7 +11,10 @@ package me.srrapero720.dynamiclights.api.item;
 
 import com.google.gson.JsonObject;
 import me.srrapero720.dynamiclights.LambDynLights;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.RegistryDataLoader;
+import net.neoforged.neoforge.registries.NeoForgeRegistries;
+import net.neoforged.neoforge.registries.NeoForgeRegistriesSetup;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
@@ -97,7 +100,7 @@ public abstract class ItemLightSource {
 		}
 
 		var affectId = new ResourceLocation(json.get("item").getAsString());
-		var item = ForgeRegistries.ITEMS.getValue(affectId);
+		var item = BuiltInRegistries.ITEM.get(affectId);
 
 		if (item == Items.AIR)
 			return Optional.empty();
@@ -118,7 +121,7 @@ public abstract class ItemLightSource {
 			} else {
 				var blockId = ResourceLocation.tryParse(luminanceStr);
 				if (blockId != null) {
-					var block = ForgeRegistries.BLOCKS.getValue(blockId);
+					var block = BuiltInRegistries.BLOCK.get(blockId);
 					if (block != null && block != Blocks.AIR)
 						return Optional.of(new BlockItemLightSource(id, item, block.defaultBlockState(), waterSensitive));
 				}

@@ -2,7 +2,6 @@ package me.srrapero720.embeddiumplus.features.frame_overlay;
 
 import me.srrapero720.embeddiumplus.mixins.impl.frames.FpsAccessorMixin;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.FrameTimer;
 import net.minecraft.util.Mth;
 
 public class MinFrameProvider {
@@ -13,17 +12,21 @@ public class MinFrameProvider {
 
     public static void recalculate() {
         var client = Minecraft.getInstance();
-        FrameTimer ft = client.getFrameTimer();
+//        FrameTimer ft = client.getFrameTimer();
 
-        int logStart = ft.getLogStart();
-        int logEnd = ft.getLogEnd();
+//        int logStart = ft.getLogStart();
+//        int logEnd = ft.getLogEnd();
+        int logStart = 0;
+        int logEnd = 0;
+
 
         if (logEnd == logStart) return;
 
         int fps = FpsAccessorMixin.getFps();
         if (fps <= 0) fps = 1;
 
-        long[] frames = ft.getLog();
+//        long[] frames = ft.getLog();
+        long[] frames = new long[0];
         long maxNS = (long) (1 / (double) fps * 1000000000);
         long totalNS = 0;
 

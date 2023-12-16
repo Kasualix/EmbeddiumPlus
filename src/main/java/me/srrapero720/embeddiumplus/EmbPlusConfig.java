@@ -3,25 +3,24 @@ package me.srrapero720.embeddiumplus;
 import com.electronwill.nightconfig.core.file.CommentedFileConfig;
 import com.electronwill.nightconfig.core.io.WritingMode;
 import net.minecraft.network.chat.Component;
-import net.minecraftforge.common.ForgeConfigSpec;
-import java.nio.file.Path;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.loading.FMLPaths;
+import net.neoforged.neoforge.common.ModConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec.ConfigValue;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.function.Consumer;
 
-import net.minecraftforge.common.ForgeConfigSpec.ConfigValue;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.loading.FMLPaths;
-
 public class EmbPlusConfig {
-    public static final ForgeConfigSpec SPECS;
+    public static final ModConfigSpec SPECS;
 
-    public static ForgeConfigSpec.EnumValue<FadeInQuality> fadeInQuality;
+    public static ModConfigSpec.EnumValue<FadeInQuality> fadeInQuality;
 
-    public static ForgeConfigSpec.EnumValue<Complexity> fpsCounterMode;
+    public static ModConfigSpec.EnumValue<Complexity> fpsCounterMode;
     public static ConfigValue<Integer> fpsCounterPosition;
-    public static ForgeConfigSpec.ConfigValue<Integer> cloudHeight;
+    public static ModConfigSpec.ConfigValue<Integer> cloudHeight;
 
 
     public static ConfigValue<Integer> maxTileEntityRenderDistanceSquare;
@@ -29,7 +28,7 @@ public class EmbPlusConfig {
 
     public static ConfigValue<Integer> maxEntityRenderDistanceSquare;
     public static ConfigValue<Integer> maxEntityRenderDistanceY;
-    public static ForgeConfigSpec.ConfigValue<List<? extends String>> entityWhitelist;
+    public static ModConfigSpec.ConfigValue<List<? extends String>> entityWhitelist;
 
     public static ConfigValue<Boolean> fog;
     public static ConfigValue<Boolean> enableDistanceChecks;
@@ -37,31 +36,31 @@ public class EmbPlusConfig {
 
     public static ConfigValue<Boolean> hideJEI;
 
-    public static ForgeConfigSpec.EnumValue<FullScreenMode> fullScreenMode;
+    public static ModConfigSpec.EnumValue<FullScreenMode> fullScreenMode;
 
 
     // Total Darkness
     public static double darkNetherFogEffective;
     public static double darkEndFogEffective;
-    public static ForgeConfigSpec.BooleanValue trueDarknessEnabled;
-    public static ForgeConfigSpec.EnumValue<DarknessMode> darknessOption;
+    public static ModConfigSpec.BooleanValue trueDarknessEnabled;
+    public static ModConfigSpec.EnumValue<DarknessMode> darknessOption;
     //advanced
-    public static ForgeConfigSpec.DoubleValue darkNetherFogConfigured;
-    public static ForgeConfigSpec.BooleanValue darkEnd;
-    public static ForgeConfigSpec.DoubleValue darkEndFogConfigured;
-    public static ForgeConfigSpec.BooleanValue darkSkyless;
-    public static ForgeConfigSpec.BooleanValue blockLightOnly;
-    public static ForgeConfigSpec.BooleanValue ignoreMoonPhase;
-    public static ForgeConfigSpec.DoubleValue minimumMoonLevel;
-    public static ForgeConfigSpec.DoubleValue maximumMoonLevel;
-    public static ForgeConfigSpec.BooleanValue darkOverworld;
-    public static ForgeConfigSpec.BooleanValue darkDefault;
-    public static ForgeConfigSpec.BooleanValue darkNether;
+    public static ModConfigSpec.DoubleValue darkNetherFogConfigured;
+    public static ModConfigSpec.BooleanValue darkEnd;
+    public static ModConfigSpec.DoubleValue darkEndFogConfigured;
+    public static ModConfigSpec.BooleanValue darkSkyless;
+    public static ModConfigSpec.BooleanValue blockLightOnly;
+    public static ModConfigSpec.BooleanValue ignoreMoonPhase;
+    public static ModConfigSpec.DoubleValue minimumMoonLevel;
+    public static ModConfigSpec.DoubleValue maximumMoonLevel;
+    public static ModConfigSpec.BooleanValue darkOverworld;
+    public static ModConfigSpec.BooleanValue darkDefault;
+    public static ModConfigSpec.BooleanValue darkNether;
     //dynamic lights
-    public static ForgeConfigSpec.EnumValue<DynamicLightsQuality> dynQuality;
-    public static ForgeConfigSpec.ConfigValue<Boolean> entityLighting;
-    public static ForgeConfigSpec.ConfigValue<Boolean> tileEntityLighting;
-    public static ForgeConfigSpec.ConfigValue<Boolean> onlyUpdateOnPositionChange;
+    public static ModConfigSpec.EnumValue<DynamicLightsQuality> dynQuality;
+    public static ModConfigSpec.ConfigValue<Boolean> entityLighting;
+    public static ModConfigSpec.ConfigValue<Boolean> tileEntityLighting;
+    public static ModConfigSpec.ConfigValue<Boolean> onlyUpdateOnPositionChange;
 
 
     static {
@@ -224,14 +223,14 @@ public class EmbPlusConfig {
     }
 
     public static class ConfigBuilder {
-        private static final ForgeConfigSpec.Builder COMMON_BUILDER = new ForgeConfigSpec.Builder();
+        private static final ModConfigSpec.Builder COMMON_BUILDER = new ModConfigSpec.Builder();
 
         public ConfigBuilder(String name, String... comments) {
             for (int i = 0; i < comments.length; i++) COMMON_BUILDER.comment(comments[i]);
             COMMON_BUILDER.push(name);
         }
 
-        public ForgeConfigSpec save() {
+        public ModConfigSpec save() {
             COMMON_BUILDER.pop();
             return COMMON_BUILDER.build();
         }
@@ -241,7 +240,7 @@ public class EmbPlusConfig {
             return this;
         }
 
-        public void block(String name, Consumer<ForgeConfigSpec.Builder> func) {
+        public void block(String name, Consumer<ModConfigSpec.Builder> func) {
             COMMON_BUILDER.push(name);
             func.accept(COMMON_BUILDER);
             COMMON_BUILDER.pop();
